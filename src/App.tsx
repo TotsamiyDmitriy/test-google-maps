@@ -44,7 +44,7 @@ const App: React.FC<MapProps> = React.memo(({ center = { lat: -3.745, lng: -38.5
     googleMapsApiKey: import.meta.env.VITE_API_KEY.toString(),
   });
 
-  const [map, setMap] = React.useState<google.maps.Map | null>(null);
+  const [_map, setMap] = React.useState<google.maps.Map | null>(null);
   const colRef = collection(db, 'markers');
 
   const [markers, setMarkers] = React.useState<MarkerType[]>([]);
@@ -123,7 +123,7 @@ const App: React.FC<MapProps> = React.memo(({ center = { lat: -3.745, lng: -38.5
     }
   };
 
-  const onClickMarker = (e: google.maps.MapMouseEvent, id: number) => {
+  const onClickMarker = (_e: google.maps.MapMouseEvent, id: number) => {
     setSelectedMarker({ ...markers[id], index: id });
     console.log('selected', id);
   };
@@ -131,7 +131,7 @@ const App: React.FC<MapProps> = React.memo(({ center = { lat: -3.745, lng: -38.5
   const deleteHandler = async (e: React.MouseEvent<HTMLButtonElement>, selected: MarkerType) => {
     e.preventDefault();
     console.log('DEL');
-    setMarkers(markers.filter((marker, index) => index !== selected.index));
+    setMarkers(markers.filter((_marker, index) => index !== selected.index));
     const docRef = doc(db, 'markers', selected.id);
     await deleteDoc(docRef);
     setSelectedMarker(undefined);
